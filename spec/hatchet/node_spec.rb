@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-describe "Multibuildpack" do
-  it "works with node" do
+describe "Node" do
+  it "works with node buildpack" do
     Hatchet::Runner.new("node_multi", buildpack_url: "https://github.com/heroku/heroku-buildpack-multi.git").deploy do |app|
       expect(app.output).to match("Node Version in Ruby buildpack is: v4.1.2")
       expect(app.run("node -v")).to match("v4.1.2")
@@ -16,9 +16,15 @@ describe "Multibuildpack" do
     end
   end
 
-  it "doesn't install node without exec JS" do
+  it "doesn't install node without execjs or webpacker" do
     Hatchet::Runner.new("default_ruby").deploy do |app|
       expect(app.run("node -v")).to match("node: command not found")
+    end
+  end
+
+  it "installs node when webpacker is detected but no execjs" do
+    Hatchet::Runner.new("webpacker_no_execjs").deploy do |app|
+      expect(app.output).to match("Installing node-v")
     end
   end
 end

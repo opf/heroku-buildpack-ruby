@@ -1,7 +1,11 @@
 source "https://rubygems.org"
+git_source(:github) { |repo| "https://github.com/#{repo}.git" }
+
+ruby '2.5.7'
 
 group :development, :test do
-  gem "heroku_hatchet", "~>3.0.1"
+  gem "toml-rb"
+  gem "heroku_hatchet"
   gem "rspec-core"
   gem "rspec-expectations"
   gem "excon"
@@ -11,4 +15,6 @@ group :development, :test do
   gem "netrc"
   gem "git", github: "hone/ruby-git", branch: "master"
   gem 'json', '~> 2.0.2'
+  gem 'ci-queue', github: 'shopify/ci-queue', branch: 'rspec-log-order'
+  gem 'redis'
 end
